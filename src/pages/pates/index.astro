@@ -1,0 +1,63 @@
+---
+import { 
+  DEFAULT_TITLE, 
+  DEFAULT_DESCRIPTION, 
+  DEFAULT_KEYWORDS, 
+  DEFAULT_AUTHOR, 
+  DEFAULT_OG_IMAGE, 
+  DEFAULT_PREFETCH_URLS,
+  DEFAULT_CSS_FILES,
+  DEFAULT_JS_FILES,
+  DEFAULT_LANG,
+  FAVICON_ICO,
+  FAVICON_32x32,
+  FAVICON_16x16,
+  APPLE_TOUCH_ICON,
+  MANIFEST,
+  ROBOTS_CONTENT,
+  THEME_COLOR
+} from '../../const';
+import Layout from '@layouts/Layout.astro';
+import HeroSection from '@components/Sections/HeroSection.astro';
+import PastaList from '@components/Custom/PastaList.astro'; // Nouveau composant pour la liste des pâtes
+import HeroSectionGallery from '@components/Sections/HeroSectionGallery.astro';
+
+// Déclaration des constantes pour la page
+const pageTitle = "Pâtes - CASA NELA";
+const pageDescription = "Découvrez notre sélection de pâtes faites maison au restaurant CASA NELA.";
+const pageKeywords = "pâtes, restaurant, CASA NELA, menu, plats";
+const pageAuthor = "Votre Nom";
+const pageOgImage = "./images/og-pates.jpg";
+const pageCanonicalUrl = ""; // Will default to current URL
+const pagePrefetchUrls = [""]; // URLs à précharger si nécessaire
+const pageCssFiles = ["", ...DEFAULT_CSS_FILES];
+const pageJsFiles = ["", ...DEFAULT_JS_FILES];
+const pageLang = "fr"; // ou autre langue
+const pageRobots = "index, follow"; // Permet l'indexation
+---
+
+<Layout 
+  title={pageTitle} 
+  description={pageDescription} 
+  keywords={pageKeywords} 
+  author={pageAuthor} 
+  ogImage={pageOgImage} 
+  canonicalUrl={pageCanonicalUrl} 
+  prefetchUrls={pagePrefetchUrls}
+  cssFiles={pageCssFiles}
+  jsFiles={pageJsFiles}
+  lang={pageLang}
+  robots={pageRobots}
+>
+  <HeroSectionGallery 
+    title="Pâtes du Restaurant CASA NELA" 
+    subtitle="Savourez nos délicieuses pâtes"
+    description="Chaque plat de pâtes est préparé avec des ingrédients frais et de qualité."
+    images={[ 
+      { src: "/images/pates-1.png", alt: "Pâtes fraîches" },
+      { src: "/images/pates-2.png", alt: "Pâtes au pesto" },
+      { src: "/images/pates-3.png", alt: "Pâtes à la carbonara" }
+    ]}
+  />
+  <PastaList /> <!-- Affichage de la liste des pâtes -->
+</Layout>

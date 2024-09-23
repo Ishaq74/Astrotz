@@ -1,0 +1,39 @@
+---
+import Grid from '@components/Elements/Grid1.astro';
+import { Image } from 'astro:assets';
+const { imageUrl, imageAlt, title, description, slug } = Astro.props;
+---
+
+<Grid 
+  tag="section"
+  gap="gap-2"
+  xPadding="px-2"
+  yPadding="py-4"
+  xAlign="center"
+  yAlign="center"
+  align="center"
+  textAlign="center"
+  backgroundColor="bg-secondary" 
+  border={true} 
+  borderWidth="border-2" 
+  borderColor="border-secondary" 
+  borderStyle="border-dashed" 
+  borderRadius="rounded-lg"
+  boxShadow="shadow-md"
+  overflowHidden={false}
+  customClasses="h-full hover:origin-top-left hover:rotate-2 transition-transform ease-in-out"
+>
+{imageUrl && 
+  <Image 
+  src={imageUrl}
+  width={150}
+  height={150}
+  format="webp"
+  loading={"eager"}
+  alt={imageAlt}
+   />
+}
+    <h3 class="text-h3 text-balance">{title}</h3>
+    {description && <p class="text-body text-balance">{description}</p>}
+  </div>
+</Grid>

@@ -1,0 +1,97 @@
+---
+import Grid from "@components/Elements/Grid1.astro";
+import Flex from "@components/Elements/Flex.astro";
+import Link from "@components/Elements/Link.astro";
+import { Picture } from "astro:assets";
+import { setupCheckoutButton } from "../../api/checkout";
+
+const { product, similarProducts } = Astro.props;
+const { title, description, price, image } = product.data;
+const imageSrc = image?.src || "/default-image.jpg";
+const imageAlt = image?.alt || "Image du produit par défaut";
+---
+
+<Grid
+  tag="section"
+  autoFit={true}
+  backgroundColor="bg-secondary"
+  gap="gap-6"
+  xPadding="px-4 md:px-12"
+  yPadding="py-6 md:py-12"
+>
+  <div class="flex justify-center items-center">
+    <Picture
+      src={imageSrc}
+      alt={imageAlt}
+      class="rounded-lg shadow-md object-cover w-full h-auto"
+      width={500}
+      height={500}
+      format="webp"
+      loading="eager"
+    />
+  </div>
+
+  <Grid
+    tag="section"
+    gap="gap-6"
+    xPadding="px-4 md:px-12"
+    yPadding="py-6 md:py-12"
+    backgroundColor="bg-primary"
+    borderRadius="rounded-lg"
+    boxShadow="shadow-lg"
+  >
+    <h2 class="text-h2 font-bold text-black text-wrap">{title}</h2>
+    <p class="text-body text-black">{description}</p>
+
+    <Flex
+      tag="div"
+      direction="row"
+      xAlign="space-between"
+      yAlign="center"
+      wrap="nowrap"
+      customClasses="w-full"
+    >
+      <span class="text-h4 font-semibold text-accent">{price} €</span>
+      <button class="checkout-button bg-accent text-white py-2 px-4 rounded">
+        Acheter
+      </button>
+    </Flex>
+
+    <Link href="/" style="dark" ariaLabel="Retour à la liste des produits">
+      Retour à la liste des produits
+    </Link>
+
+    <h3 class="text-h3 font-semibold mt-6">Produits similaires</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {similarProducts.map((similarProduct) => (
+        <div>
+          <h4>{similarProduct.data.title}</h4>
+          <Picture
+            src={similarProduct.data.image.src}
+            alt={similarProduct.data.image.alt}
+            class="rounded-md object-cover"
+            width={300}
+            height={300}
+          />
+          <p>{similarProduct.data.price} €</p>
+          <Link href={`/products/${similarProduct.slug}`} style="accent">Voir le produit</Link>
+        </div>
+      ))}
+    </div>
+  </Grid>
+</Grid>
+
+<script type="module">
+  import { setupCheckoutButton } from './src/api/checkout';
+
+  const button = document.querySelector('.checkout-button');
+  const product = {
+    title: '{title}',
+    image: { src: '{imageSrc}' },
+    price: {price}
+  };
+
+  if (button) {
+    setupCheckoutButton(button, product);
+  }
+</script>

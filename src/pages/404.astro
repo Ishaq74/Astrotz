@@ -1,0 +1,33 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Grid from "@components/Elements/Grid1.astro";
+import Link from "@components/Elements/Link.astro";
+---
+
+<Layout title="Page Not Found" description="404 - Page not found">
+  <Grid 
+    tag="section"
+    gap="gap-4"
+    backgroundColor="bg-secondary"
+    yPadding="py-[80px]"
+    xPadding="px-[40px]"
+    align="center"
+    overflowHidden={false} 
+    additionalClasses="min-h-screen flex items-center justify-center text-center"
+  >
+    <!-- Contenu de la page 404 -->
+      <h1 class="text-h1">404</h1>
+      <p class="text-body">
+        Ce que tu recherches n'existe pas sur ce site !</br>
+      </p>
+      <!-- Lien vers la page d'accueil -->
+       <Link isButtonStyle={true} 
+       shape="sharp" 
+       href="/" 
+       style="bg-primary" 
+       isButtonStyle>
+        Retourner sur la page d'accueil
+    </Link>
+      </a>
+  </Grid>
+</Layout>

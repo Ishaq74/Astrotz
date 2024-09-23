@@ -1,0 +1,101 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import HeroSection from "@components/Sections/HeroSection.astro";
+import Grid from '@components/Elements/Grid1.astro';
+import Card from '@components/Elements/Card.astro';
+import Breadcrumb from "@components/Navigation/Breadcrumb.astro";
+
+// Récupération des chemins statiques pour les catégories
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  return categories.map(category => ({
+    params: { category: category.slug },
+  }));
+}
+
+// Récupérer les données pour la catégorie en cours
+const { category } = Astro.params;
+const products = await getCollection('products');
+const categories = await getCollection('categories');
+
+// Trouver la catégorie correspondante
+const currentCategory = categories.find(cat => cat.slug === category);
+
+if (!currentCategory) {
+  // Redirection vers une page 404 si la catégorie n'est pas trouvée
+  return Astro.redirect('/404');
+}
+
+// Filtrer les sous-catégories (catégories enfants) qui ont comme parent la catégorie actuelle
+const subCategories = categories.filter(cat => cat.data.parent === currentCategory.slug);
+
+// Filtrer les produits de cette catégorie (s'il n'y a pas de sous-catégories)
+const filteredProducts = products.filter(prod => 
+  prod.data.category.slug === currentCategory.slug
+);
+---
+
+<Layout title={currentCategory.data.title} description={currentCategory.data.description}>
+  <HeroSection 
+    title={currentCategory.data.title}
+    description={currentCategory.data.description}
+    image={currentCategory.data.image}
+  />
+
+  <Grid
+    tag="section"
+    gap="gap-16 md:gap-8" 
+    backgroundColor="bg-secondary" 
+    yPadding="py-[80px]"
+    xPadding="px-[80px]"
+    overflowHidden={false} 
+  >
+    <!-- Breadcrumb -->
+    <Breadcrumb currentCategory={currentCategory} categories={categories} />
+
+    <!-- Catégorie actuelle -->
+    <h2 class="text-h2">{currentCategory.data.title}</h2>
+    <p class="text-body">{currentCategory.data.description}</p>
+
+    <Grid 
+      tag="section"
+      autoFit
+      gap="gap-16 md:gap-8" 
+      backgroundColor="bg-secondary" 
+      yPadding="py-0"
+      xPadding="px-0"
+      overflowHidden={false} 
+    >
+      {subCategories.length > 0 ? (
+        subCategories.map(subCategory => (
+          <a href={`/menu/${subCategory.slug}`}>
+            <Card 
+              imageUrl={subCategory.data.image.src}
+              imageAlt={subCategory.data.image.alt}
+              title={subCategory.data.title}
+              description={subCategory.data.description}
+            />
+          </a>
+        ))
+      ) : (
+        filteredProducts.map(product => {
+          const productLink = product.data.category.slug === 'pates' 
+            ? `/pates/${product.slug}` 
+            : `/products/${product.slug}`;
+          
+          return (
+            <a href={productLink}>
+              <Card 
+                imageUrl={product.data.image.src}
+                imageAlt={product.data.image.alt}
+                title={product.data.title}
+                description={product.data.description}
+              />
+            </a>
+          );
+        })
+      )}
+    </Grid>
+  </Grid>
+</Layout>

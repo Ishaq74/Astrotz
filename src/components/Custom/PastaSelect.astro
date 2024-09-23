@@ -1,0 +1,139 @@
+---
+import Grid from "@components/Elements/Grid1.astro";
+import Flex from "@components/Elements/Flex.astro";
+import Link from "@components/Elements/Link.astro";
+import { Picture } from "astro:assets";
+import { getCollection } from "astro:content";
+
+const { product } = Astro.props; // Récupérer le produit
+const { title, description, price, image } = product.data;
+
+// Définir les variables pour l'image
+const imageSrc = image?.src || "/default-image.jpg";
+const imageAlt = image?.alt || "Image du produit par défaut";
+
+// Récupérer les produits de la catégorie "types-pates" et "fromages-pates"
+const allProducts = await getCollection('products');
+const pastaTypes = allProducts.filter(pasta => pasta.data.category.slug === 'types-pates');
+const cheeses = allProducts.filter(cheese => cheese.data.category.slug === 'fromages-pates');
+
+let selectedPasta = pastaTypes[0];
+let selectedCheese = cheeses[0];
+
+// Calculer le prix total
+const calculateTotalPrice = () => {
+  return price + (selectedCheese?.data.price || 0);
+};
+---
+
+<Grid
+  tag="section"
+  autoFit={true}
+  backgroundColor="bg-secondary"
+  gap="gap-6"
+  xPadding="px-4 md:px-12"
+  yPadding="py-6 md:py-12"
+>
+
+  {/* Section image produit */}
+  <div class="flex justify-center items-center">
+    <Picture
+      src={imageSrc}
+      alt={imageAlt}
+      class="rounded-lg shadow-md object-cover w-full h-auto"
+      width={500}
+      height={500}
+      format="webp"
+      loading="eager"
+    />
+  </div>
+
+  {/* Section détails produit */}
+  <Grid
+    tag="section"
+    gap="gap-6"
+    xPadding="px-4 md:px-12"
+    yPadding="py-6 md:py-12"
+    backgroundColor="bg-primary"
+    borderRadius="rounded-lg"
+    boxShadow="shadow-lg"
+  >
+    {/* Titre produit */}
+    <h2 class="text-h2 font-bold text-black text-wrap">
+      {title}
+    </h2>
+
+    {/* Description produit */}
+    <p class="text-body text-black">
+      {description}
+    </p>
+
+    {/* Sélection des types de pâtes */}
+    <div>
+      <h4 class="font-semibold">Choisissez votre type de pâtes :</h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {pastaTypes.map((pasta) => (
+          <div 
+            class="border rounded-lg p-4 cursor-pointer hover:bg-gray-200"
+            onClick={() => selectedPasta = pasta}
+          >
+            <h5>{pasta.data.title}</h5>
+            <Picture src={pasta.data.image.src} alt={pasta.data.image?.alt} width={100} height={100} />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Sélection des fromages */}
+    <div>
+      <h4 class="font-semibold">Choisissez votre fromage :</h4>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {cheeses.map((cheese) => (
+          <div 
+            class="border rounded-lg p-4 cursor-pointer hover:bg-gray-200"
+            onClick={() => selectedCheese = cheese}
+          >
+            <h5>{cheese.data.title} {cheese.data.price > 0 ? `(+${cheese.data.price} €)` : ''}</h5>
+            <Picture src={cheese.data.image.src} alt={cheese.data.image?.alt} width={100} height={100} />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Prix et CTA */}
+    <Flex
+      tag="div"
+      direction="row"
+      xAlign="space-between"
+      yAlign="center"
+      wrap="nowrap"
+      customClasses="w-full"
+    >
+      {/* Prix total du produit */}
+      <span class="text-h4 font-semibold text-accent">
+        Total : {calculateTotalPrice().toFixed(2)} €
+      </span>
+
+      {/* Bouton d'achat */}
+      <Link
+        href="/cart"
+        style="accent"
+        ariaLabel={`Ajouter ${title} au panier`}
+        isButtonStyle={true}
+        ypadding="py-2"
+        xpadding="px-6"
+      >
+        Ajouter au panier
+      </Link>
+    </Flex>
+
+    {/* Bouton retour */}
+    <Link
+      href="/"
+      style="dark"
+      ariaLabel="Retour à la liste des produits"
+    >
+      Retour à la liste des produits
+    </Link>
+  </Grid>
+</Grid>

@@ -1,0 +1,43 @@
+@font-face {
+    font-family: "Bowlby One SC";
+    src: url("../fonts/Bowlby_One_SC/BowlbyOneSC-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "Palanquin Dark";
+    src: url("../fonts/Palanquin_Dark/PalanquinDark-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "Palanquin Dark";
+    src: url("../fonts/Palanquin_Dark/PalanquinDark-Medium.ttf")
+      format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "Palanquin Dark";
+    src: url("../fonts/Palanquin_Dark/PalanquinDark-Regular.ttf")
+      format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "Palanquin Dark";
+    src: url("../fonts/Palanquin_Dark/PalanquinDark-SemiBold.ttf")
+      format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  

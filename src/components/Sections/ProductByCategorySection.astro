@@ -1,0 +1,54 @@
+---
+import Grid from '@components/Elements/Grid1.astro';
+import Card from '@components/Elements/Card.astro';
+import { getCollection } from 'astro:content';
+
+// Récupérer les props
+const { categorySlug } = Astro.props;
+
+// Récupérer tous les produits
+const allProducts = await getCollection('products');
+
+// Filtrer les produits par catégorie
+const products = allProducts.filter(product => product.data.category === categorySlug);
+
+// Si aucun produit n'est disponible
+if (!products.length) {
+  return <p>Aucun produit disponible dans cette catégorie.</p>;
+}
+---
+
+<Grid
+  tag="section"
+  gap="gap-16 md:gap-8" 
+  backgroundColor="bg-secondary" 
+  borderColor="border-purple-500"
+  borderWidth="border-4"
+  borderStyle="border-dotted"
+  textAlign="center"
+  overflowHidden={false}
+>
+  <h2 class="text-h2">Produits de la catégorie : {categorySlug}</h2>
+
+  <Grid
+    tag="section"
+    autoFit 
+    gap="gap-16 md:gap-8" 
+    backgroundColor="accent" 
+    borderColor="border-purple-500"
+    borderWidth="border-4"
+    borderStyle="border-dotted"
+    overflowHidden={false}
+  >
+    {products.map(product => (
+      <Card 
+        title={product.data.title} 
+        description={product.data.description} 
+        slug={product.slug} 
+        imageUrl={product.data.image.src}
+        imageAlt={product.data.image?.alt}
+        price={product.data.price}
+      />
+    ))}
+  </Grid>
+</Grid>

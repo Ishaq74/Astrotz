@@ -1,0 +1,108 @@
+---
+import { 
+  IMAGE_MAPS
+} from '../../const.ts';
+import Button from '@components/Elements/Button.astro';
+import Grid from '@components/Elements/Grid1.astro';
+import { Image } from 'astro:assets';
+
+---
+<Grid
+  tag="section"
+  backgroundColor="bg-secondary"
+  autoFit={true}
+>
+  <Grid
+    tag="span"
+    xAlign="center"
+    yAlign="top"
+    textAlign="left"
+    hFull
+  >
+    <h2 class="text-h2 text-left">Nous Contacter</h2>
+    <Image 
+    src={IMAGE_MAPS}
+    width={600}
+    height={600}
+    format="webp"
+    loading={"eager"}
+    alt="plan de la ville"
+    class={"h-full w-full border-4 border-secondary-dark shadow-sm rounded-lg"}
+     />
+  </Grid>
+
+  <Grid
+    tag="span"
+    borderColor="border-white"
+    borderWidth="border-4"
+    borderRadius="rounded-3xl"
+    backgroundColor="bg-black"
+    boxShadow="shadow-sm"
+    hFull={true}
+  >
+    <p class="text-body text-white">
+      Pour toutes questions relatives à notre établissement, n’hésitez pas à remplir ce formulaire.
+    </p>
+    <form class="grid gap-4">
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Nom (validé)"
+          class="p-2 border border-green-500 rounded-md w-full"
+        />
+        <p class="text-body text-green-500 text-sm mt-1">Validation réussie.</p>
+      </div>
+      <div class="relative">
+        <input
+          type="email"
+          placeholder="Email (erreur)"
+          class="p-2 border border-red-500 rounded-md w-full"
+        />
+        <p class="text-body text-red-500 text-sm mt-1">Adresse email invalide.</p>
+      </div>
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Recherche"
+          class="p-2 border border-gray-300 rounded-md w-full pl-10"
+        />
+        <svg
+          class="absolute top-1/2 left-2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 14l2-2m0 0l2-2m-2 2h6m-6 2a8 8 0 110-16 8 8 0 010 16z"
+          ></path>
+        </svg>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <label class="text-body text-white flex items-center">
+          <input
+            type="radio"
+            name="options"
+            value="option1"
+            class="mr-2"
+          /> Option 1
+        </label>
+        <label class="text-body text-white flex items-center">
+          <input
+            type="radio"
+            name="options"
+            value="option2"
+            class="mr-2"
+          /> Option 2
+        </label>
+      </div>
+      <label class="text-body text-white flex items-center">
+        <input type="checkbox" class="mr-2" /> J'accepte les termes et conditions
+      </label>
+      <Button style="bg-primary">Envoyer</Button>
+    </form>
+  </Grid>
+</Grid>

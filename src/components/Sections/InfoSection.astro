@@ -1,0 +1,93 @@
+---
+import Flex from '@components/Elements/Flex.astro';
+import Grid from '@components/Elements/Grid1.astro';
+import Link from '@components/Elements/Link.astro';
+---
+
+<Grid
+  tag="section"
+  xAlign="center"
+  backgroundColor="bg-primary"
+>
+  <Grid
+    autoFit={true}
+    yPadding="0"
+    xPadding="0"
+    xAlign="center"
+    yAlign="center"
+  >
+
+    <Grid
+      tag="span"
+      xAlign="center"
+      yPadding="px-4"
+      xPadding="py-4"
+    >
+      <h2 class="text-h2 text-balance">Où et Comment Commander ?</h2>
+
+      <Grid
+        tag="span"
+        yPadding="py-4"
+        xPadding="px-4"
+        borderRadius="rounded-lg"
+        boxShadow="shadow-sm"
+      >
+        <h3 class="text-h3">Horaires D’Ouverture</h3>
+        <ul>
+          <li class="text-body">Lundi au Vendredi : 11h00 – 14h30 | 17h30 – 21h00</li>
+          <li class="text-body">Samedi : 11h00 – 21h00</li>
+          <li class="text-body">Dimanche : Fermé</li>
+        </ul>
+      </Grid>
+
+      <Grid
+        tag="span"
+        yPadding="py-4"
+        xPadding="px-4"
+        borderRadius="rounded-lg"
+        boxShadow="shadow-sm"
+      >
+        <h3 class="text-h3">Sur Place</h3>
+        <p class="text-body">Rendez-vous au 1 avenue de loverchy, Annecy.
+          Nous sommes situés à côté du lycée Gabriel Fauré, près de la porte Sainte Claire, et à proximité de Food Crêpe et du pensionnat Les Balmettes.
+        </p>
+      </Grid>
+    </Grid>
+
+    <Grid
+      tag="span"
+      xAlign="center"
+      yPadding="px-4"
+      xPadding="py-4"
+    >
+    <Grid
+    tag="span"
+    yPadding="py-4"
+    xPadding="px-4"
+    borderRadius="rounded-lg"
+    boxShadow="shadow-sm"
+  >
+        <h3 class="text-h3">À Emporter</h3>
+        <p class="text-body">Commandez à emporter en nous appelant au [votre numéro de téléphone].</p>
+        <Link style="secondary" isButtonStyle={true} shape="rounded">Appel rapide</Link>
+      </Grid>
+
+      <Grid
+        tag="span"
+        yPadding="py-4"
+        xPadding="px-4"
+        borderRadius="rounded-lg"
+        boxShadow="shadow-sm"
+      >
+        <h3 class="text-h3">En Livraison</h3>
+        <p class="text-body">
+          Commandez en ligne via Deliveroo ou Uber Eats pour vous faire livrer directement chez vous.
+        </p>
+        <Flex tag="span" xAlign="justify-between" gap="gap-6">
+          <Link style="bg-primary" isButtonStyle={true} shape="sharp">UberEats</Link>
+          <Link style="secondary" isButtonStyle={true} shape="rounded">Deliveroo</Link>
+        </Flex>
+      </Grid>
+    </Grid>
+  </Grid>
+</Grid>

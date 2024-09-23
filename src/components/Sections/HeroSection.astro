@@ -1,0 +1,40 @@
+---
+import Grid from '@components/Elements/Grid1.astro';
+import Link from '@components/Elements/Link.astro';
+import { Picture } from 'astro:assets';
+
+const { title, subtitle, description, image } = Astro.props;
+---
+
+<Grid 
+tag="section"
+autoFit 
+gap="gap-16 md:gap-8" 
+backgroundColor="bg-primary" 
+yPadding="py-[80px]"
+xPadding="px-[80px]"
+overflowHidden={false}
+align="center"
+>
+  <div class="flex flex-col items-center text-center md:text-left md:items-start">
+    <h1 class="text-h1">{title}</h1>
+    <p class="text-h4">{subtitle}</p>
+    <p class="text-body">{description}</p>
+    
+    <div class="flex space-x-4 mt-4">
+      <Link isButtonStyle={true} shape="sharp" href="https://example.com/commander" style="bg-primary" isButtonStyle>COMMANDER</Link>
+      <Link isButtonStyle={true} shape="rounded" href="/menu" style="secondary" isButtonStyle>VOIR LE MENU</Link>
+    </div>
+  </div>
+    {image && (
+          <Picture
+            src={image.src}
+            alt={image.alt}
+            class="rounded-md object-cover"
+            width={300}
+            height={300}
+            format="webp"
+            loading="eager"
+          />
+    )}
+</Grid>

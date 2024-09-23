@@ -1,0 +1,125 @@
+---
+import {
+    SITE_URL,
+    DEFAULT_TITLE, 
+    DEFAULT_DESCRIPTION, 
+    DEFAULT_KEYWORDS, 
+    DEFAULT_AUTHOR, 
+    DEFAULT_OG_IMAGE, 
+    DEFAULT_CSS_FILES,
+    DEFAULT_JS_FILES,
+    DEFAULT_LANG
+} from "../../const";
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Grid from "@components/Elements/Grid1.astro";
+import HeroSection from "@components/Sections/HeroSectionGallery.astro";
+import ProductSingle from "@components/Products/ProductSingle.astro";
+
+// Récupération des produits et des catégories
+export async function getStaticPaths() {
+    const products = await getCollection('products');
+    return products.map((product) => ({
+        params: { id: product.slug },
+        props: { product },
+    }));
+}
+
+// Récupérer les catégories et les convertir en dictionnaire pour un accès rapide
+const products = await getCollection('products');
+const categories = await getCollection('categories');
+const categoriesDict = Object.fromEntries(
+  categories.map(category => [category.slug, category.data])
+);
+
+const { product } = Astro.props;
+const { data } = product;
+const { title, description, price, image, gallery, category } = data;
+
+// Associer le produit à la catégorie correspondante
+const categoryData = categoriesDict[category.slug] || null;
+
+// Récupérer les produits similaires
+const similarProducts = products.filter((prod) => 
+  prod.data.category.slug === categoryData?.slug && prod.slug !== product.slug
+);
+
+// Déclaration des constantes pour la page
+const pageTitle = title;
+const pageDescription = description;
+const pageKeywords = `produit, ${categoryData?.title || ''}`;
+const pageAuthor = DEFAULT_AUTHOR;
+const pageOgImage = image.src;
+const pageCanonicalUrl = `${SITE_URL}/products/${product.slug}`;
+const pagePrefetchUrls = [];
+const pageCssFiles = [...DEFAULT_CSS_FILES];
+const pageJsFiles = [...DEFAULT_JS_FILES];
+const pageLang = DEFAULT_LANG;
+const pageRobots = "index, follow";
+
+// Construction des breadcrumbs
+const buildBreadcrumbs = () => {
+  const breadcrumbs = [{ name: 'Accueil', href: '/' }];
+  
+  // Vérifier que categoryData existe avant d'ajouter le lien
+  if (categoryData) {
+    breadcrumbs.push({ name: categoryData.title, href: `/menu/${category.slug}` });
+  }
+  
+  // Ajout du produit actuel
+  breadcrumbs.push({ name: title, href: `/products/${product.slug}` });
+  
+  return breadcrumbs;
+};
+
+const breadcrumbs = buildBreadcrumbs();
+
+console.log(categoryData);
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+  author={pageAuthor}
+  ogImage={pageOgImage}
+  canonicalUrl={pageCanonicalUrl}
+  prefetchUrls={pagePrefetchUrls}
+  cssFiles={pageCssFiles}
+  jsFiles={pageJsFiles}
+  lang={pageLang}
+  robots={pageRobots}
+>
+  <HeroSection 
+    title={title} 
+    description={description}
+    images={gallery || [
+      { src: "https://staging.renovannecy.fr/wp-content/uploads/2024/08/image00006-removebg-preview-e1723041294375.png", alt: "example" }
+    ]}
+  />
+<Grid
+tag="section"
+gap="gap-16 md:gap-8" 
+backgroundColor="bg-secondary" 
+yPadding="py-[80px]"
+xPadding="px-[80px]"
+overflowHidden={false} 
+>
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="flex items-center text-sm text-gray-600">
+  <ul class="flex space-x-2">
+    {breadcrumbs.map((crumb, index) => (
+      <li>
+        {index > 0 && <span class="mx-2">/</span>}
+        <a href={crumb.href} class="hover:underline text-black hover:text-white">{crumb.name}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<!-- Catégorie actuelle -->
+<h2 class="text-h2">{title}</h2>
+<p class="text-body">{description}</p>
+  <ProductSingle product={product} category={categoryData} similarProducts={similarProducts} />
+</Grid>
+</Layout>

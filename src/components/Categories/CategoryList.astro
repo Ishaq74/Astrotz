@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Grid from '@components/Elements/Grid1.astro';
+import Card from '@components/Elements/Card.astro';
+
+const categories = await getCollection('categories');
+
+const displayCategories = categories
+  .filter(category => category.data.display === true)
+  .sort((a, b) => a.data.displayorder - b.data.displayorder);
+---
+
+<Grid
+tag="section"
+gap="gap-16 md:gap-8" 
+backgroundColor="bg-black" 
+borderColor="border-purple-500"
+borderWidth="border-4"
+borderStyle="border-dotted"
+textAlign="center"
+overflowHidden={false}
+>
+<h2 class="text-h2 text-primary">Nos Plats</h2>
+<p class="text-body text-primary">Découvrez notre large gamme de plats.
+  Pour les envies de pâtes, pizzas, salades, et délicieux desserts.
+
+</p>
+
+<Grid
+tag="section"
+autoFit
+gap="gap-16 md:gap-8" 
+overflowHidden={false}
+>
+  {displayCategories.map(category => (
+    <a  href={`/menu/${category.slug}`}>
+    <Card 
+      title={category.data.title} 
+      description={category.data.description} 
+      slug={category.slug} 
+      imageUrl={category.data.image.src}
+      imageAlt={category.data.image?.alt}
+    />
+  </a>
+  ))}
+  </Grid>
+</Grid>
+
+

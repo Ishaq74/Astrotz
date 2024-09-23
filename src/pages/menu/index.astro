@@ -1,0 +1,63 @@
+---
+import { 
+  DEFAULT_TITLE, 
+  DEFAULT_DESCRIPTION, 
+  DEFAULT_KEYWORDS, 
+  DEFAULT_AUTHOR, 
+  DEFAULT_OG_IMAGE, 
+  DEFAULT_PREFETCH_URLS,
+  DEFAULT_CSS_FILES,
+  DEFAULT_JS_FILES,
+  DEFAULT_LANG,
+  FAVICON_ICO,
+  FAVICON_32x32,
+  FAVICON_16x16,
+  APPLE_TOUCH_ICON,
+  MANIFEST,
+  ROBOTS_CONTENT,
+  THEME_COLOR
+} from '../../const';
+import Layout from '@layouts/Layout.astro';
+import HeroSection from '@components/Sections/HeroSection.astro';
+import CategoryList from '@components/Categories/CategoryList.astro'; // Nouveau composant pour les catégories
+import HeroSectionGallery from '@components/Sections/HeroSectionGallery.astro';
+
+// Déclaration des constantes pour la page
+const pageTitle = "Menu - CASA NELA";
+const pageDescription = "Découvrez notre menu avec toutes les catégories de plats proposés au restaurant CASA NELA.";
+const pageKeywords = "menu, restaurant, CASA NELA, catégories, plats";
+const pageAuthor = "Votre Nom";
+const pageOgImage = "./images/og-menu.jpg";
+const pageCanonicalUrl = ""; // Will default to current URL
+const pagePrefetchUrls = [""]; // URLs à précharger si nécessaire
+const pageCssFiles = ["", ...DEFAULT_CSS_FILES];
+const pageJsFiles = ["", ...DEFAULT_JS_FILES];
+const pageLang = "fr"; // ou autre langue
+const pageRobots = "index, follow"; // Permet l'indexation
+---
+
+<Layout 
+  title={pageTitle} 
+  description={pageDescription} 
+  keywords={pageKeywords} 
+  author={pageAuthor} 
+  ogImage={pageOgImage} 
+  canonicalUrl={pageCanonicalUrl} 
+  prefetchUrls={pagePrefetchUrls}
+  cssFiles={pageCssFiles}
+  jsFiles={pageJsFiles}
+  lang={pageLang}
+  robots={pageRobots}
+>
+  <HeroSectionGallery 
+    title="Menu du Restaurant CASA NELA" 
+    subtitle="Explorez nos catégories de plats"
+    description="Chaque plat est préparé avec soin pour offrir une expérience culinaire inoubliable."
+    images={[ 
+      { src: "/images/oasis-orange.png", alt: "Plats délicieux" },
+      { src: "/images/salade-nela.png", alt: "Ambiance chaleureuse" },
+      { src: "/images/tiramisu-maison.png", alt: "Nos spécialités" }
+    ]}
+  />
+  <CategoryList /> <!-- Affichage des catégories -->
+</Layout>

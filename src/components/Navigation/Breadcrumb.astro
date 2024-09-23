@@ -1,0 +1,40 @@
+---
+const { currentCategory, categories } = Astro.props;
+
+const buildBreadcrumbs = () => {
+  const breadcrumbs = [{ name: 'Accueil', href: '/' }];
+  
+  if (currentCategory.data.parent) {
+    // Ajouter les catégories parentes
+    const parentCategory = categories.find(cat => cat.slug === currentCategory.data.parent);
+    if (parentCategory) {
+      breadcrumbs.push({ name: parentCategory.data.title, href: `/menu/${parentCategory.slug}` });
+    }
+  }
+  
+  // Ajouter la catégorie actuelle
+  breadcrumbs.push({ name: currentCategory.data.title, href: `/menu/${currentCategory.slug}` });
+
+  return breadcrumbs;
+};
+
+const breadcrumbs = buildBreadcrumbs();
+---
+
+<nav aria-label="breadcrumb" class="flex items-center text-sm text-gray-600">
+  <ul class="flex space-x-2">
+    {breadcrumbs.map((crumb, index) => (
+      <li>
+        {index > 0 && <span class="mx-2">/</span>}
+        <a href={crumb.href} class="hover:underline text-black hover:text-white">{crumb.name}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  nav {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  }
+</style>

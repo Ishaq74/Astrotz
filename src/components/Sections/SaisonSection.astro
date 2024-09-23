@@ -1,0 +1,44 @@
+---
+import Grid from '@components/Elements/Grid1.astro';
+import Card from '@components/Elements/Card.astro';
+import { getCollection } from 'astro:content';
+
+const products = await getCollection('products');
+
+// Filtrer et trier les produits pour ne garder que ceux qui sont mis en avant
+const featuredProducts = products
+  .filter(product => product.data.featured === true)
+  .sort((a, b) => a.data.featuredorder - b.data.featuredorder);
+---
+<Grid
+  tag="section"
+  gap="gap-16 md:gap-8" 
+  backgroundColor="bg-secondary" 
+  textAlign="center"
+  overflowHidden={false}
+>
+<h2 class="text-h2">Menu de la Semaine</h2>
+<p class="text-body">
+    Ne manquez pas notre menu de la semaine, qui propose des plats saisonniers en plus de notre offre habituelle.
+    Une belle occasion de découvrir de nouvelles saveurs et de renouveler votre expérience culinaire chez CASA NELA.
+</p>
+
+<Grid
+  tag="section"
+autoFit
+  gap="gap-16 md:gap-8" 
+  overflowHidden={false}
+>
+  {featuredProducts.map(product => (
+    <Card 
+      title={product.data.title} 
+      description={product.data.description} 
+      slug={product.slug} 
+      imageUrl={product.data.image.src}
+      imageAlt={product.data.image?.alt}
+      price={product.data.price}
+    />
+  ))}
+</Grid>
+</Grid>
+

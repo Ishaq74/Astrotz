@@ -1,16 +1,76 @@
 ---
+import { 
+  DEFAULT_TITLE, 
+  DEFAULT_DESCRIPTION, 
+  DEFAULT_KEYWORDS, 
+  DEFAULT_AUTHOR, 
+  DEFAULT_OG_IMAGE, 
+  DEFAULT_PREFETCH_URLS,
+  DEFAULT_CSS_FILES,
+  DEFAULT_JS_FILES,
+  DEFAULT_LANG,
+  FAVICON_ICO,
+  FAVICON_32x32,
+  FAVICON_16x16,
+  APPLE_TOUCH_ICON,
+  MANIFEST,
+  ROBOTS_CONTENT,
+  THEME_COLOR
+} from '../const';
+import Layout from '@layouts/Layout.astro';
+import HeroSection from '@components/Sections/HeroSectionGallery.astro';
+import CategorySection from '@components/Sections/CategorySection.astro';
+import AboutSection from '@components/Sections/AboutSection.astro';
+import FaqSection from '@components/Sections/FaqSection.astro';
+import InfoSection from '@components/Sections/InfoSection.astro';
+import ContactSection from '@components/Sections/ContactSection.astro';
+import FeaturedProduct from '@components/Products/FeaturedProduct.astro';
+import Grid from '@components/Elements/Grid1.astro';
 
+// Déclaration des constantes pour la page
+const pageTitle = "Blog - Mon Site Incroyable";
+const pageDescription = "Page d'accueil du Blog avec Astro.";
+const pageKeywords = "blog, astro, cms, site web";
+const pageAuthor = "Votre Nom";
+const pageOgImage = "./images/og-home.jpg";
+const pageCanonicalUrl = ""; // Will default to current URL
+const pagePrefetchUrls = [""];
+const pageCssFiles = ["", ...DEFAULT_CSS_FILES];
+const pageJsFiles = ["", ...DEFAULT_JS_FILES];
+const pageLang = "fr"; // or other language
+const pageRobots = "noindex, nofollow";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout 
+  title={pageTitle} 
+  description={pageDescription} 
+  keywords={pageKeywords} 
+  author={pageAuthor} 
+  ogImage={pageOgImage} 
+  canonicalUrl={pageCanonicalUrl} 
+  prefetchUrls={pagePrefetchUrls}
+  cssFiles={pageCssFiles}
+  jsFiles={pageJsFiles}
+  lang={pageLang}
+  robots={pageRobots}
+>
+<HeroSection 
+  title="CASA NELA" 
+  subtitle="Le Nouveau Restaurant Gourmand d’Annecy"
+  description="Nous servons des repas faits avec des ingrédients de qualité. Chaque plat est conçu pour plaire aux annéciens."
+  images={[
+    { src: "https://staging.renovannecy.fr/wp-content/uploads/2024/08/image00005-removebg-preview-e1723041323392.png", alt: "a lovely kiss in the night" },
+    { src: "https://staging.renovannecy.fr/wp-content/uploads/2024/08/image00006-removebg-preview-e1723041294375.png", alt: "a women inside a car" },
+    { src: "https://staging.renovannecy.fr/wp-content/uploads/2024/08/image00008-removebg-preview-e1723041257803.png", alt: "a baby" },
+    { src: "https://staging.renovannecy.fr/wp-content/uploads/2024/08/salad-challenge.png", alt: "a girl in the forest" },
+    { src: "https://picsum.photos/id/65/400/400", alt: "a girl" }
+  ]}
+/>
+<FeaturedProduct />
+
+<CategorySection />
+<AboutSection />
+<FaqSection />
+<InfoSection />
+<ContactSection />
+</Layout>

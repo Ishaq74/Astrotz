@@ -1,0 +1,18 @@
+---
+// DividerTop.astro
+const { type = "curb", height = "50px", angle = "0deg", color = "#fff" } = Astro.props;
+
+// Predefined SVG Paths
+const dividerSvg = {
+  curved: `<path d="M0,50 C25,0 75,0 100,50" fill="${color}" />`,
+  wave: `<path d="M0,100 Q50,50 100,100 T200,100" fill="${color}" />`,
+  zigzag: `<path d="M0,100 L50,0 L100,100" fill="${color}" />`,
+  curb: `<path d="M0,50 C25,0 75,0 100,50" fill="${color}" />`
+}[type] || `<path d="M0,50 C25,0 75,0 100,50" fill="${color}" />`;
+---
+
+<div class="relative" style={`height: ${height}; transform: rotate(${angle});`}>
+  <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+    {dividerSvg}
+  </svg>
+</div>
